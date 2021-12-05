@@ -1,10 +1,11 @@
 import React, {useContext,useState, useEffect} from 'react';
-import { FlatList, SafeAreaView,ImageBackground, StyleSheet,Alert,StatusBar,Platform} from 'react-native';
+import { FlatList, SafeAreaView,ImageBackground, StyleSheet,Alert,StatusBar,Platform,View} from 'react-native';
 import ListItem from '../components/ListItem';
 import AMBanner from '../context/AMBanner';
 import BG from '../assets/ShelfScreenBG.png'
 import { ApiContext } from '../context/ApiContext'
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
+import { Input } from "native-base";
 
 const styles = StyleSheet.create({
     BGImage: {
@@ -17,12 +18,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     },
+    searchBar: {
+        margin: 5,
+    }
 })
 
 
 const ShelfScreen = () => {
     const { newBookList, bookListDispatch,setBookList, getBookImage,database,bookList } = useContext(ApiContext)
     const [filteredBookList, setFilteredBookList] = useState(newBookList)
+    const [bookSearchWord, setBookSearchWord] = useState("")
     useEffect(() => {
         setBookList(newBookList)
         setFilteredBookList(newBookList.filter(item => {return item.done == 0}))
@@ -56,9 +61,17 @@ const ShelfScreen = () => {
         <SafeAreaView style={styles.safeAreaView}>
             <ExpoStatusBar style="auto" />
             <ImageBackground source={BG} resizeMode="cover" style={styles.BGImage} imageStyle={{opacity: 0.4}}>
-                
+                <AMBanner />
+                <View style={styles.searchBar}>
+                    <Input
+                        onChangeText={searchword => setBookSearchWord(searchword)}
+                        placeholder="検索"
+                        variant="rounded"
+                        isFullWidth={true}
+                    />
+                </View>
                 <FlatList
-                    data={filteredBookList}
+                    data={filteredBookList.filter(book => book.title.includes(bookSearchWord))}
                     renderItem={({ item }) => (
                         <ListItem
                             item={item}
@@ -71,7 +84,7 @@ const ShelfScreen = () => {
                 >
 
                 </FlatList>
-                <AMBanner />
+                
             </ImageBackground>
         </ SafeAreaView>
 
