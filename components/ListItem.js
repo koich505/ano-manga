@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Platform} from 'react-native';
+import { StyleSheet, Text,TextInput, View, Image, TouchableOpacity, Platform} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Center, IconButton, Icon } from 'native-base'
 import { useFonts } from 'expo-font'
@@ -108,14 +108,12 @@ const ListItem = (props) => {
                             <IconButton icon={<Icon size="sm" as={<AntDesign name="arrowdown" />} />} onPress={() => props.dispatch("dec_read",props.item.id)}/>
                         </Center>
                     </View>
-                    <Text style={styles.readCountContainer}>
-                        <Text style={styles.readCountMain}>
-                            {props.item.read} 巻
-                        </Text>
+                    <View style={styles.readCountContainer}>
+                        <TextInput style={styles.readCountMain} value={String(props.item.read) + " 巻"} />
                         <Text style={styles.readCountSub}>
                             まで読んだ
                         </Text>
-                    </Text>
+                    </View>
                     <View style={styles.readCountButton} >
                         <Center flex={1}>
                             <IconButton icon={<Icon size = "sm" as ={<AntDesign name ="arrowup" />}/>}  onPress={() => props.dispatch("add_read",props.item.id)} />
