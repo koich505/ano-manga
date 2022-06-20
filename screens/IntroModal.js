@@ -59,7 +59,7 @@ const slider = [
     {
         key: 3,
         title: '②タイトルを入れて検索',
-        description: '※広告が表示されます\n正しい画像が表示されない場合は漫画の正式名称を入れてみてね！',
+        description: '\n正しい画像が表示されない場合は漫画の正式名称を入れてみてね！',
         style: [styles.screenOdd, styles.screen],
         image: require('../assets/introModalGIFs/searchBook.gif'),
     },
@@ -80,7 +80,7 @@ const slider = [
     {
         key: 6,
         title: '⑤左下のアイコンをクリックすると表紙が更新されます',
-        description: '※広告が表示されます\n正しい表紙が表示されない場合があります……',
+        description: '\n正しい表紙が表示されない場合があります……',
         style: [styles.screenEven, styles.screen],
         image: require('../assets/introModalGIFs/changeImage.gif'),
     },

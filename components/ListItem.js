@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text,TextInput, View, Image, TouchableOpacity, Platform} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Center, IconButton, Icon } from 'native-base'
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     readCountMain: {
         fontSize: 20,
-        fontFamily:'comicFont'
+        fontFamily: 'comicFont',
     },
     readCountSub: {
         fontSize: 10,
@@ -75,6 +75,8 @@ const styles = StyleSheet.create({
 });
 
 const ListItem = (props) => {
+    const [readNum, setReadNum] = useState(props.item.read)
+
     const [loaded] = useFonts({ comicFont: require('../assets/fonts/DotGothic16-Regular.ttf') })
      if (!loaded) {
         return null;
@@ -86,6 +88,7 @@ const ListItem = (props) => {
             return 150
         }
     }
+    
 
     return (
         <View style={[styles.itemContainer, {height: containerHeight()}]}>
@@ -105,18 +108,34 @@ const ListItem = (props) => {
                 <View style={styles.readContainer}>
                     <View style={styles.readCountButton} >
                         <Center flex={1}>
-                            <IconButton icon={<Icon size="sm" as={<AntDesign name="arrowdown" />} />} onPress={() => props.dispatch("dec_read",props.item.id)}/>
+                            <IconButton icon={<Icon size="sm" as={<AntDesign name="arrowdown" />} />} onPress={() => {
+                                if (readNum != 1) {
+                                    props.readDispatch(props.item.id, readNum -1)
+                                setReadNum(readNum - 1)
+                                }
+                                }
+                                
+                            }
+                            />
                         </Center>
                     </View>
                     <View style={styles.readCountContainer}>
-                        <TextInput style={styles.readCountMain} value={String(props.item.read) + " 巻"} />
+                        <View style={{ flexDirection: 'row' }}>
+                            <TextInput style={styles.readCountMain} keyboardType="numeric" value={isNaN(readNum) ? "" : String(readNum)} onChangeText={(value) => value != "" ? setReadNum(Number(value)) : setReadNum("")} onEndEditing={() => { Number.isInteger(readNum) && Number(readNum) != 0 ? props.readDispatch(props.item.id, readNum) : setReadNum(props.item.read) }} />
+                            <Text style={styles.readCountMain}>巻</Text>
+                        </View>
                         <Text style={styles.readCountSub}>
                             まで読んだ
                         </Text>
                     </View>
                     <View style={styles.readCountButton} >
                         <Center flex={1}>
-                            <IconButton icon={<Icon size = "sm" as ={<AntDesign name ="arrowup" />}/>}  onPress={() => props.dispatch("add_read",props.item.id)} />
+                            <IconButton icon={<Icon size="sm" as={<AntDesign name="arrowup" />} />} onPress={() => {
+                                props.readDispatch(props.item.id, readNum + 1)
+                                setReadNum(readNum + 1)
+                                }
+                            }
+                            />
                         </Center>
                     </View>
                 </View>

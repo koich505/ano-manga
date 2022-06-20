@@ -75,7 +75,7 @@ const ShelfScreen = () => {
                     renderItem={({ item }) => (
                         <ListItem
                             item={item}
-                            dispatch={(type, id) => dispatch(type, id)}
+                            readDispatch={(id, readNum) => bookListDispatch({type: "change_read", id: id, readNum: readNum, database:database})}
                             changeImage={(word, num, id) => changeImage(word, num, id)}
                             done={(type, id) => done(type, id)}
                         />

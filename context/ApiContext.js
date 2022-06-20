@@ -110,7 +110,7 @@ const ApiContextProvider = (props) => {
 
 
     const getBookImage = async (word, num) => {
-        await Interstitial()
+        //await Interstitial()
         const url = "https://www.googleapis.com/customsearch/v1"
         const params = {
             key: googleApiKey,

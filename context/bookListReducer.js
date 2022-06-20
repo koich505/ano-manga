@@ -28,15 +28,9 @@ const bookListReducer = (state, action) => {
                 )
             })
             return [...state, action.book]
-        case ('add_read'):
-            list[index].read++
+        case ('change_read'):
+            list[index].read = action.readNum
             changeDb('read', list[index].read, index)
-            return list
-        case ('dec_read'):
-            if(list[index].read > 1){
-                list[index].read--
-                changeDb('read', list[index].read, index)
-            }
             return list
         case ('changeImage'):
             list[index].img = action.img
